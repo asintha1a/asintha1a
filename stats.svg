@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="100%" style="background-color: #0d1117; border-radius: 6px;">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
-.label { font-family: "JetBrains Mono", monospace; font-size: 13px; fill: #8b949e; }
-.value { font-family: "JetBrains Mono", monospace; font-size: 28px; font-weight: 600; fill: #c9d1d9; }
+.label { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 13px; fill: #8b949e; }
+.value { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 28px; font-weight: 600; fill: #c9d1d9; }
 .spark { fill: none; stroke: #58a6ff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 <rect width="100%" height="100%" fill="#0d1117" rx="6"/>

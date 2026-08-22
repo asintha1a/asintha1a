@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 from PIL import Image
-from rembg import remove
+from rembg import remove, new_session
 
 def generate_ascii_portrait():
     input_path = "assets/avatar.jpg"
@@ -12,8 +12,7 @@ def generate_ascii_portrait():
         print(f"Avatar not found at {input_path}")
         return
 
-    # Load image and remove background using lightweight u2netp
-    from rembg import new_session
+    # Load image and remove background
     input_image = Image.open(input_path)
     session = new_session("u2netp")
     output_image = remove(input_image, session=session)
@@ -62,7 +61,7 @@ def generate_ascii_portrait():
             line += char
         ascii_lines.append(line)
         
-    # Generate SVG with typing animation (SMIL)
+    # Generate SVG with typing animation (SMIL) and safe font stack
     char_w = 7.74
     char_h = 16.0
     svg_w = cols * char_w + 40
@@ -71,8 +70,7 @@ def generate_ascii_portrait():
     svg_parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {svg_w} {svg_h}" width="100%" style="background-color: #0d1117; border-radius: 6px;">',
         '<style>',
-        "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');",
-        '.txt { font-family: "JetBrains Mono", monospace; font-size: 12.9px; fill: #c9d1d9; }',
+        '.txt { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 12.9px; fill: #c9d1d9; }',
         '.cursor { fill: #58a6ff; }',
         '</style>',
         f'<rect width="100%" height="100%" fill="#0d1117" rx="6"/>',

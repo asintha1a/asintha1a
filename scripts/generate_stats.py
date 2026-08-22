@@ -1,11 +1,9 @@
 import os
 import json
 import urllib.request
-import urllib.error
 from datetime import datetime, timedelta, timezone
 
 def fetch_github_data(token, username):
-    # If no token, return mock data for local testing
     if not token:
         return get_mock_data()
     
@@ -110,7 +108,6 @@ def generate_stats_svg(data):
     total = data["user"]["contributionsCollection"]["contributionCalendar"]["totalContributions"]
     weeks = data["user"]["contributionsCollection"]["contributionCalendar"]["weeks"]
     
-    # Extract weekly totals for sparkline
     weekly_totals = []
     for w in weeks:
         week_sum = sum(day["contributionCount"] for day in w["contributionDays"])
@@ -121,9 +118,8 @@ def generate_stats_svg(data):
     svg = [
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="100%" style="background-color: #0d1117; border-radius: 6px;">',
         '<style>',
-        "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');",
-        '.label { font-family: "JetBrains Mono", monospace; font-size: 13px; fill: #8b949e; }',
-        '.value { font-family: "JetBrains Mono", monospace; font-size: 28px; font-weight: 600; fill: #c9d1d9; }',
+        '.label { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 13px; fill: #8b949e; }',
+        '.value { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 28px; font-weight: 600; fill: #c9d1d9; }',
         '.spark { fill: none; stroke: #58a6ff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }',
         '</style>',
         '<rect width="100%" height="100%" fill="#0d1117" rx="6"/>',
@@ -131,7 +127,6 @@ def generate_stats_svg(data):
         f'<text x="30" y="85" class="value">{total:,}</text>'
     ]
     
-    # Draw sparkline on the right
     pts = []
     start_x = 380
     end_x = 570
@@ -151,9 +146,8 @@ def generate_streak_svg():
     svg = [
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="100%" style="background-color: #0d1117; border-radius: 6px;">',
         '<style>',
-        "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');",
-        '.label { font-family: "JetBrains Mono", monospace; font-size: 13px; fill: #8b949e; }',
-        '.value { font-family: "JetBrains Mono", monospace; font-size: 24px; font-weight: 600; fill: #58a6ff; }',
+        '.label { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 13px; fill: #8b949e; }',
+        '.value { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 24px; font-weight: 600; fill: #58a6ff; }',
         '</style>',
         '<rect width="100%" height="100%" fill="#0d1117" rx="6"/>',
         '<text x="30" y="45" class="label">Current Streak</text>',
@@ -166,7 +160,6 @@ def generate_streak_svg():
         f.write("\n".join(svg))
 
 def generate_langs_svg(data):
-    # Aggregate languages
     lang_totals = {}
     for repo in data["user"]["repositories"]["nodes"]:
         for edge in repo["languages"]["edges"]:
@@ -183,15 +176,13 @@ def generate_langs_svg(data):
     svg = [
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="100%" style="background-color: #0d1117; border-radius: 6px;">',
         '<style>',
-        "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');",
-        '.label { font-family: "JetBrains Mono", monospace; font-size: 13px; fill: #8b949e; }',
-        '.lang-text { font-family: "JetBrains Mono", monospace; font-size: 12px; fill: #c9d1d9; }',
+        '.label { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 13px; fill: #8b949e; }',
+        '.lang-text { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 12px; fill: #c9d1d9; }',
         '</style>',
         '<rect width="100%" height="100%" fill="#0d1117" rx="6"/>',
         '<text x="30" y="30" class="label">Top Languages</text>'
     ]
     
-    # Draw progress bar
     bar_x = 30
     bar_y = 45
     bar_w = 540
@@ -208,12 +199,11 @@ def generate_langs_svg(data):
         curr_x += seg_w
     svg.append('</g>')
     
-    # Legend items
     legend_y = 85
     curr_x = 30
     for i, (name, info) in enumerate(sorted_langs):
         pct = (info["size"] / total_size) * 100
-        if i > 2: # Limit to top 3 in legend if tight
+        if i > 2:
             break
         svg.append(f'<circle cx="{curr_x + 5}" cy="{legend_y - 4}" r="5" fill="{info["color"]}"/>')
         svg.append(f'<text x="{curr_x + 18}" y="{legend_y}" class="lang-text">{name} ({pct:.1f}%)</text>')
@@ -228,9 +218,8 @@ def generate_year_svg(data):
     svg = [
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 100" width="100%" style="background-color: #0d1117; border-radius: 6px;">',
         '<style>',
-        "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');",
-        '.label { font-family: "JetBrains Mono", monospace; font-size: 13px; fill: #8b949e; }',
-        '.year-txt { font-family: "JetBrains Mono", monospace; font-size: 11px; fill: #58a6ff; }',
+        '.label { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 13px; fill: #8b949e; }',
+        '.year-txt { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 11px; fill: #58a6ff; }',
         '</style>',
         '<rect width="100%" height="100%" fill="#0d1117" rx="6"/>',
         '<text x="30" y="35" class="label">Activity Density (365 Days)</text>',
