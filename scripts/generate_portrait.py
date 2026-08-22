@@ -25,19 +25,19 @@ def generate_ascii_portrait():
     filtered = cv2.bilateralFilter(gray, 9, 75, 75)
     
     # CLAHE for local contrast
-    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
+    clahe = cv2.createCLAHE(clipLimit=3.5, tileGridSize=(8, 8))
     enhanced = clahe.apply(filtered)
     
-    # Darkening curve: (v / 255) ^ 1.7
+    # Darkening curve: (v / 255) ^ 1.4 for better mid-tone and feature retention
     normalized = enhanced.astype(np.float32) / 255.0
-    curved = np.power(normalized, 1.7)
+    curved = np.power(normalized, 1.4)
     final_gray = (curved * 255).astype(np.uint8)
     
-    # ASCII ramp
-    ramp = " .`:-=+*cs#%@"
+    # Richer ASCII ramp for smoother shading and facial detail
+    ramp = " .'`^,:;Il!i~+_-?[]{}1()|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao#MW&8%B@$"
     ramp_len = len(ramp)
     
-    cols = 80
+    cols = 100
     h, w = final_gray.shape
     aspect = h / w
     rows = int(cols * aspect * 0.48)
@@ -70,7 +70,7 @@ def generate_ascii_portrait():
     svg_parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {svg_w} {svg_h}" width="100%" style="background-color: #0d1117; border-radius: 6px;">',
         '<style>',
-        '.txt { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 12.9px; fill: #c9d1d9; }',
+        '.txt { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; font-size: 11.5px; fill: #c9d1d9; }',
         '.cursor { fill: #58a6ff; }',
         '</style>',
         f'<rect width="100%" height="100%" fill="#0d1117" rx="6"/>',
@@ -105,7 +105,7 @@ def generate_ascii_portrait():
     os.makedirs(os.path.dirname(output_svg) if os.path.dirname(output_svg) else '.', exist_ok=True)
     with open(output_svg, "w", encoding="utf-8") as f:
         f.write("\n".join(svg_parts))
-    print(f"Portrait SVG successfully generated at {output_svg}")
+    print(f"Refined Portrait SVG successfully generated at {output_svg}")
 
 if __name__ == "__main__":
     generate_ascii_portrait()

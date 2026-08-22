@@ -1,7 +1,7 @@
 > "Computer Science Student | Digital Project Manager | Creative Technologist specializing in AI & Automation"
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/portrait.svg?v=5" width="100%" alt="Self-typing ASCII Portrait of Asintha Dilhara"/>
+  <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/portrait.svg?v=6" width="100%" alt="Self-typing ASCII Portrait of Asintha Dilhara"/>
 </p>
 
 ### About Me
@@ -15,12 +15,12 @@ I am a dedicated Computer Science student and seasoned digital project manager c
 ### Live Operational Metrics
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/stats.svg?v=5" width="49%" alt="Total Contributions & Sparkline"/>
-  <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/streak.svg?v=5" width="49%" alt="Streak Statistics"/>
+  <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/stats.svg?v=6" width="49%" alt="Total Contributions & Sparkline"/>
+  <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/streak.svg?v=6" width="49%" alt="Streak Statistics"/>
 </p>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/langs.svg?v=5" width="49%" alt="Top Languages"/>
-  <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/year.svg?v=5" width="49%" alt="Activity Density Grid"/>
+  <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/langs.svg?v=6" width="49%" alt="Top Languages"/>
+  <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/year.svg?v=6" width="49%" alt="Activity Density Grid"/>
 </p>
 
 <br>
