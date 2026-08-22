@@ -223,7 +223,7 @@ def generate_year_svg(data):
         '</style>',
         '<rect width="100%" height="100%" fill="#0d1117" rx="6"/>',
         '<text x="30" y="35" class="label">Activity Density (365 Days)</text>',
-        '<text x="30" y="65" class="year-txt">██▓▓▒▒░░ Active Contribution Stream & Operational Rhythm ░░▒▒▓▓██</text>',
+        '<text x="30" y="65" class="year-txt" xml:space="preserve">██▓▓▒▒░░ Active Contribution Stream &amp; Operational Rhythm ░░▒▒▓▓██</text>',
         '</svg>'
     ]
     with open("year.svg", "w", encoding="utf-8") as f:

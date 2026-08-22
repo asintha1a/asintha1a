@@ -37,7 +37,7 @@ def generate_ascii_portrait():
     ramp = " .`:-=+*cs#%@"
     ramp_len = len(ramp)
     
-    cols = 90
+    cols = 80
     h, w = final_gray.shape
     aspect = h / w
     rows = int(cols * aspect * 0.48)
@@ -51,7 +51,7 @@ def generate_ascii_portrait():
             idx = int((pixel / 255.0) * (ramp_len - 1))
             char = ramp[idx]
             if char == " ":
-                char = "&nbsp;"
+                char = "&#160;"
             elif char == "<":
                 char = "&lt;"
             elif char == ">":
@@ -89,8 +89,8 @@ def generate_ascii_portrait():
         svg_parts.append(f'</rect>')
         svg_parts.append(f'</clipPath>')
         
-        svg_parts.append(f'<text x="0" y="{y}" class="txt">{line}</text>')
-        svg_parts.append(f'<text x="0" y="{y}" class="txt" clip-path="url(#{clip_id})" fill="#58a6ff">{line}</text>')
+        svg_parts.append(f'<text x="0" y="{y}" class="txt" xml:space="preserve">{line}</text>')
+        svg_parts.append(f'<text x="0" y="{y}" class="txt" clip-path="url(#{clip_id})" fill="#58a6ff" xml:space="preserve">{line}</text>')
         
         # Cursor dot riding edge
         svg_parts.append(f'<rect x="0" y="{y-11}" width="6" height="14" class="cursor" opacity="0">')
