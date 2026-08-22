@@ -21,6 +21,7 @@ I am a dedicated Computer Science student and seasoned digital project manager c
 <p align="center">
   <img src="langs.svg" width="49%" alt="Top Languages"/>
   <img src="year.svg" width="49%" alt="Activity Density Grid"/>
+  <img src="test.svg" width="49%" alt="Test SVG"/>
 </p>
 
 <br>
