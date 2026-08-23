@@ -7,14 +7,16 @@
 <text x="30" y="30" class="label">Top Languages</text>
 <mask id="bar-mask"><rect x="30" y="45" width="540" height="12" rx="6" fill="#fff"/></mask>
 <g mask="url(#bar-mask)">
-<rect x="30" y="45" width="296.3414634146342" height="12" fill="#3178c6"/>
-<rect x="326.3414634146342" y="45" width="164.6341463414634" height="12" fill="#3572A5"/>
-<rect x="490.9756097560976" y="45" width="79.02439024390243" height="12" fill="#e34c26"/>
+<rect x="30" y="45" width="442.8917340042787" height="12" fill="#3178c6"/>
+<rect x="472.8917340042787" y="45" width="37.991870275145466" height="12" fill="#f1e05a"/>
+<rect x="510.88360427942416" y="45" width="26.401187516049628" height="12" fill="#e34c26"/>
+<rect x="537.2847917954738" y="45" width="23.00259388865874" height="12" fill="#3572A5"/>
+<rect x="560.2873856841326" y="45" width="9.712614315867459" height="12" fill="#663399"/>
 </g>
 <circle cx="35" cy="81" r="5" fill="#3178c6"/>
-<text x="48" y="85" class="lang-text">TypeScript (54.9%)</text>
-<circle cx="205" cy="81" r="5" fill="#3572A5"/>
-<text x="218" y="85" class="lang-text">Python (30.5%)</text>
+<text x="48" y="85" class="lang-text">TypeScript (82.0%)</text>
+<circle cx="205" cy="81" r="5" fill="#f1e05a"/>
+<text x="218" y="85" class="lang-text">JavaScript (7.0%)</text>
 <circle cx="375" cy="81" r="5" fill="#e34c26"/>
-<text x="388" y="85" class="lang-text">HTML (14.6%)</text>
+<text x="388" y="85" class="lang-text">HTML (4.9%)</text>
 </svg>
