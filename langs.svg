@@ -7,16 +7,16 @@
 <text x="30" y="30" class="label">Top Languages</text>
 <mask id="bar-mask"><rect x="30" y="45" width="540" height="12" rx="6" fill="#fff"/></mask>
 <g mask="url(#bar-mask)">
-<rect x="30" y="45" width="441.0657123966589" height="12" fill="#3178c6"/>
-<rect x="471.0657123966589" y="45" width="37.83523159641222" height="12" fill="#f1e05a"/>
-<rect x="508.9009439930711" y="45" width="28.51873105375432" height="12" fill="#e34c26"/>
-<rect x="537.4196750468254" y="45" width="22.907755285345385" height="12" fill="#3572A5"/>
-<rect x="560.3274303321708" y="45" width="9.672569667829208" height="12" fill="#663399"/>
+<rect x="30" y="45" width="461.3579178600903" height="12" fill="#3178c6"/>
+<rect x="491.3579178600903" y="45" width="29.35125491528715" height="12" fill="#f1e05a"/>
+<rect x="520.7091727753775" y="45" width="27.559468906257585" height="12" fill="#f34b7d"/>
+<rect x="548.2686416816351" y="45" width="14.659570852954026" height="12" fill="#3A4E3A"/>
+<rect x="562.9282125345892" y="45" width="7.071787465410942" height="12" fill="#F05138"/>
 </g>
 <circle cx="35" cy="81" r="5" fill="#3178c6"/>
-<text x="48" y="85" class="lang-text">TypeScript (81.7%)</text>
+<text x="48" y="85" class="lang-text">TypeScript (85.4%)</text>
 <circle cx="205" cy="81" r="5" fill="#f1e05a"/>
-<text x="218" y="85" class="lang-text">JavaScript (7.0%)</text>
-<circle cx="375" cy="81" r="5" fill="#e34c26"/>
-<text x="388" y="85" class="lang-text">HTML (5.3%)</text>
+<text x="218" y="85" class="lang-text">JavaScript (5.4%)</text>
+<circle cx="375" cy="81" r="5" fill="#f34b7d"/>
+<text x="388" y="85" class="lang-text">C++ (5.1%)</text>
 </svg>
