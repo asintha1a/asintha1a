@@ -1,4 +1,4 @@
-> "Computer Science Student | Digital Project Manager | Creative Technologist specializing in AI & Automation"
+> "Founder of Self Graphic Lab | Co-Founder of An(ti)interns | AI Automation Expert | GTM Engineer | Creative Technologist | Computer Science Undergraduate "
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/portrait.svg?v=10" width="100%" alt="Self-typing ASCII Portrait of Asintha Dilhara"/>
