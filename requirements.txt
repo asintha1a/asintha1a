@@ -1,0 +1,7 @@
+# Direct dependencies pinned to the last successful refresh environment.
+pillow==13.0.0
+opencv-python-headless==5.1.0.95
+rembg==2.0.87
+onnxruntime==1.32.0
+numpy==2.4.6
+requests==2.34.2

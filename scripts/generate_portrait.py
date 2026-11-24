@@ -1,19 +1,22 @@
 import os
+from pathlib import Path
 import cv2
 import numpy as np
 from PIL import Image
 from rembg import remove, new_session
+from prepare_model import prepare_model
+from reliability import publish_svgs
 
 def generate_ascii_portrait():
-    input_path = "assets/avatar.jpg"
+    input_path = Path(__file__).resolve().parents[1] / "assets/avatar.jpg"
     output_svg = "portrait.svg"
     
     if not os.path.exists(input_path):
-        print(f"Avatar not found at {input_path}")
-        return
+        raise FileNotFoundError(f"Avatar not found at {input_path}")
 
     # 1. Ultra-High-Quality Image Processing
     input_image = Image.open(input_path)
+    prepare_model()
     session = new_session("u2netp")
     output_image = remove(input_image, session=session)
     
@@ -121,4 +124,4 @@ def generate_ascii_portrait():
     print(f"Synchronized Live-Reveal Portrait SVG generated at {output_svg}")
 
 if __name__ == "__main__":
-    generate_ascii_portrait()
+    publish_svgs(generate_ascii_portrait, ["portrait.svg"])

@@ -1,17 +1,18 @@
 import os
-import json
-import urllib.request
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
+from html import escape
+
+import requests
+from reliability import TIMEOUT, retry_network, publish_svgs
+
 
 def fetch_github_data(token, username):
     if not token:
-        return get_mock_data()
-    
+        raise RuntimeError("GITHUB_TOKEN is required; existing assets will be preserved")
     today = datetime.now(timezone.utc).replace(hour=23, minute=59, second=59, microsecond=0)
     from_date = (today - timedelta(days=364)).replace(hour=0, minute=0, second=0, microsecond=0)
-    
     query = """
-    query($login: String!, $from: DateTime!, $to: DateTime!) {
+    query($login: String!, $from: DateTime!, $to: DateTime!, $after: String) {
       user(login: $login) {
         contributionsCollection(from: $from, to: $to) {
           contributionCalendar {
@@ -25,10 +26,12 @@ def fetch_github_data(token, username):
             }
           }
         }
-        repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false) {
+        repositories(first: 100, after: $after, ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false) {
+          pageInfo { hasNextPage endCursor }
           nodes {
             name
-            languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+            languages(first: 100, orderBy: {field: SIZE, direction: DESC}) {
+              pageInfo { hasNextPage }
               edges {
                 size
                 node {
@@ -42,67 +45,66 @@ def fetch_github_data(token, username):
       }
     }
     """
-    variables = {
-        "login": username,
-        "from": from_date.isoformat(),
-        "to": today.isoformat()
-    }
-    
-    payload = json.dumps({"query": query, "variables": variables}).encode("utf-8")
-    req = urllib.request.Request(
-        "https://api.github.com/graphql",
-        data=payload,
-        headers={
-            "Authorization": f"bearer {token}",
-            "Content-Type": "application/json",
-            "User-Agent": "GitHub-Profile-Generator"
-        }
-    )
-    
-    try:
-        with urllib.request.urlopen(req) as resp:
-            result = json.loads(resp.read().decode("utf-8"))
-            if "errors" in result:
-                print(f"GraphQL Errors: {result['errors']}")
-                return get_mock_data()
+    variables = {"login": username, "from": from_date.isoformat(), "to": today.isoformat(), "after": None}
+    repositories = []
+    while True:
+        def fetch():
+            with requests.post(
+                "https://api.github.com/graphql",
+                json={"query": query, "variables": variables},
+                headers={"Authorization": f"bearer {token}", "User-Agent": "GitHub-Profile-Generator"},
+                timeout=TIMEOUT,
+            ) as response:
+                response.raise_for_status()
+                result = response.json()
+            if result.get("errors"):
+                # Do not replace live statistics with invented fallback values.
+                raise RuntimeError("GitHub GraphQL returned errors; existing assets will be preserved")
+            if not result.get("data", {}).get("user"):
+                raise ValueError("GitHub returned no user data")
             return result["data"]
-    except Exception as e:
-        print(f"API fetch failed: {e}. Using mock data.")
-        return get_mock_data()
+        data = retry_network(fetch)
+        connection = data["user"]["repositories"]
+        if any(repo["languages"]["pageInfo"]["hasNextPage"] for repo in connection["nodes"]):
+            raise ValueError("Repository language results truncated; refusing incomplete statistics")
+        repositories.extend(connection["nodes"])
+        if not connection["pageInfo"]["hasNextPage"]:
+            break
+        cursor = connection["pageInfo"]["endCursor"]
+        if not cursor or cursor == variables["after"]:
+            raise ValueError("Invalid repository pagination cursor")
+        variables["after"] = cursor
+    data["user"]["repositories"]["nodes"] = repositories
+    return data
 
-def get_mock_data():
-    return {
-        "user": {
-            "contributionsCollection": {
-                "contributionCalendar": {
-                    "totalContributions": 1248,
-                    "weeks": [
-                        {
-                            "contributionDays": [
-                                {"date": "2025-08-22", "contributionCount": 4, "color": "#0e4429"}
-                                for _ in range(7)
-                            ]
-                        }
-                        for _ in range(52)
-                    ]
-                }
-            },
-            "repositories": {
-                "nodes": [
-                    {
-                        "name": "self-graphic-lab-website",
-                        "languages": {
-                            "edges": [
-                                {"size": 45000, "node": {"name": "TypeScript", "color": "#3178c6"}},
-                                {"size": 25000, "node": {"name": "Python", "color": "#3572A5"}},
-                                {"size": 12000, "node": {"name": "HTML", "color": "#e34c26"}}
-                            ]
-                        }
-                    }
-                ]
-            }
-        }
-    }
+
+def contribution_days(data):
+    return sorted((day for week in data["user"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+                   for day in week["contributionDays"]), key=lambda day: day["date"])
+
+
+def streaks(data):
+    days = contribution_days(data)
+    longest = running = 0
+    previous = None
+    for day in days:
+        current_date = date.fromisoformat(day["date"])
+        running = (running + 1 if previous == current_date - timedelta(days=1) else 1) if day["contributionCount"] else 0
+        longest = max(longest, running)
+        previous = current_date
+    # A day still in progress should not break yesterday's active streak.
+    if days and days[-1]["date"] == datetime.now(timezone.utc).date().isoformat() and not days[-1]["contributionCount"]:
+        days = days[:-1]
+    current = 0
+    expected = datetime.now(timezone.utc).date()
+    if days and date.fromisoformat(days[-1]["date"]) == expected - timedelta(days=1):
+        expected -= timedelta(days=1)
+    for day in reversed(days):
+        if date.fromisoformat(day["date"]) != expected or not day["contributionCount"]:
+            break
+        current += 1
+        expected -= timedelta(days=1)
+    return current, longest
 
 def generate_stats_svg(data):
     total = data["user"]["contributionsCollection"]["contributionCalendar"]["totalContributions"]
@@ -142,7 +144,8 @@ def generate_stats_svg(data):
     with open("stats.svg", "w", encoding="utf-8") as f:
         f.write("\n".join(svg))
 
-def generate_streak_svg():
+def generate_streak_svg(data):
+    current, longest = streaks(data)
     svg = [
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="100%" style="background-color: #0d1117; border-radius: 6px;">',
         '<style>',
@@ -151,9 +154,9 @@ def generate_streak_svg():
         '</style>',
         '<rect width="100%" height="100%" fill="#0d1117" rx="6"/>',
         '<text x="30" y="45" class="label">Current Streak</text>',
-        '<text x="30" y="85" class="value">14 Days</text>',
+        f'<text x="30" y="85" class="value">{current} Days</text>',
         '<text x="330" y="45" class="label">Longest Streak</text>',
-        '<text x="330" y="85" class="value">42 Days</text>',
+        f'<text x="330" y="85" class="value">{longest} Days</text>',
         '</svg>'
     ]
     with open("streak.svg", "w", encoding="utf-8") as f:
@@ -206,7 +209,7 @@ def generate_langs_svg(data):
         if i > 2:
             break
         svg.append(f'<circle cx="{curr_x + 5}" cy="{legend_y - 4}" r="5" fill="{info["color"]}"/>')
-        svg.append(f'<text x="{curr_x + 18}" y="{legend_y}" class="lang-text">{name} ({pct:.1f}%)</text>')
+        svg.append(f'<text x="{curr_x + 18}" y="{legend_y}" class="lang-text">{escape(name)} ({pct:.1f}%)</text>')
         curr_x += 170
         
     svg.append('</svg>')
@@ -223,23 +226,28 @@ def generate_year_svg(data):
         '</style>',
         '<rect width="100%" height="100%" fill="#0d1117" rx="6"/>',
         '<text x="30" y="35" class="label">Activity Density (365 Days)</text>',
-        '<text x="30" y="65" class="year-txt" xml:space="preserve">██▓▓▒▒░░ Active Contribution Stream &amp; Operational Rhythm ░░▒▒▓▓██</text>',
-        '</svg>'
     ]
+    # Fit the real contribution calendar into the existing card dimensions.
+    weeks = data["user"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+    for x, week in enumerate(weeks):
+        for day in week["contributionDays"]:
+            y = (date.fromisoformat(day["date"]).weekday() + 1) % 7
+            svg.append(f'<rect x="{30 + x * 10}" y="{44 + y * 7}" width="8" height="5" rx="1" fill="{escape(day["color"], quote=True)}"><title>{day["date"]}: {day["contributionCount"]} contributions</title></rect>')
+    svg.append('</svg>')
     with open("year.svg", "w", encoding="utf-8") as f:
         f.write("\n".join(svg))
 
-if __name__ == "__main__":
-    token = os.environ.get("GITHUB_TOKEN")
+def main():
     username = os.environ.get("GH_LOGIN", "asintha1a")
-    print(f"Fetching GitHub data for {username}...")
-    data = fetch_github_data(token, username)
-    print("Generating stats.svg...")
-    generate_stats_svg(data)
-    print("Generating streak.svg...")
-    generate_streak_svg()
-    print("Generating langs.svg...")
-    generate_langs_svg(data)
-    print("Generating year.svg...")
-    generate_year_svg(data)
+    data = fetch_github_data(os.environ.get("GITHUB_TOKEN"), username)
+    def render():
+        generate_stats_svg(data)
+        generate_streak_svg(data)
+        generate_langs_svg(data)
+        generate_year_svg(data)
+    publish_svgs(render, ["stats.svg", "streak.svg", "langs.svg", "year.svg"])
     print("All stats graphics generated successfully!")
+
+
+if __name__ == "__main__":
+    main()

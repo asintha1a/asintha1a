@@ -1,4 +1,4 @@
-> "Founder of Self Graphic Lab | Co-Founder of An(ti)interns | AI Automation Expert | GTM Engineer | Creative Technologist | Computer Science Undergraduate "
+> "Founder of Self Graphic Lab | Co-Founder of ANTIINTERNS™ | AI Automation Builder | GTM Engineer | Creative Technologist | Computer Science Undergraduate"
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/asintha1a/asintha1a/main/portrait.svg?v=10" width="100%" alt="Self-typing ASCII Portrait of Asintha Dilhara"/>
@@ -6,9 +6,15 @@
 
 ### About Me
 
-<samp>Asintha Dilhara · Computer Science Student & Digital Project Manager</samp>
+<samp>Asintha Dilhara · AI Automation Builder · GTM Engineer · Creative Technologist</samp>
 
-I am a dedicated Computer Science student and seasoned digital project manager combining rigorous technical expertise with advanced creative skills [1] [2]. As the founder and lead of <samp>Self_Graphic</samp> (and <samp>Self Graphic Lab</samp>), I direct digital design, multimedia solutions, AI automation systems, and intelligent digital products for clients worldwide [1] [3] [4]. My core interests and competencies span across artificial intelligence, automation, UI/UX engineering, graphic design, 3D modeling, and creative technology [2] [4].
+I am a Computer Science undergraduate, AI Automation Builder, GTM Engineer, and Creative Technologist working at the intersection of artificial intelligence, software engineering, cloud computing, business growth, and digital creativity.
+
+As the Founder of Self Graphic Lab and Co-Founder of ANTIINTERNS™, I build intelligent digital products, autonomous AI agents, RAG-powered applications, multi-agent architectures, business automation workflows, and scalable go-to-market systems.
+
+My technical interests and experience span LLM integration, agentic workflows, MCP, API orchestration, lead generation, CRM automation, full-stack development, and cloud infrastructure using AWS and Microsoft Azure.
+
+Alongside engineering, I work across branding, UI/UX design, multimedia production, and digital project management, combining technical problem-solving with creative execution to build practical, scalable digital solutions.
 
 <br>
 
@@ -27,15 +33,18 @@ I am a dedicated Computer Science student and seasoned digital project manager c
 
 ### Core Stack & Expertise
 
-- **Development & Engineering**: Python, TypeScript, React, Node.js, Frontend & Full-Stack Systems, AI Integration.
-- **Project Management & Creative Tech**: Digital Project Management, AI Automation, Workflow Orchestration, UI/UX Design.
-- **Multimedia & Design Studio**: Graphic Design, 3D Modeling, Video Editing, Content Creation.
+- **Software Engineering**: Python, TypeScript, JavaScript, React, Node.js, Full-Stack Development, REST APIs.
+- **AI & Agentic Engineering**: LLM Integration, RAG, AI Agents, Multi-Agent Systems, MCP, Prompt Engineering, Vector Databases.
+- **GTM Engineering & Automation**: Lead Generation, CRM Automation, Sales Automation, Revenue Operations, Workflow Orchestration, Business Process Automation.
+- **Cloud & Infrastructure**: AWS, Microsoft Azure, Cloudflare, Vercel, Docker, Cloud Deployment, CI/CD.
+- **Developer & Automation Tools**: n8n, Git, GitHub Actions, Webhooks, API Integrations, Open-Source AI Tools.
+- **Creative Technology & Design**: UI/UX Design, Branding, Graphic Design, 3D Modeling, Video Editing, Digital Project Management.
 
 <br>
 
 ### Autonomous Architecture
 
-This GitHub profile is fully self-generating. Every night at 05:17 UTC, a scheduled GitHub Actions workflow checks out this repository, downloads my latest avatar, processes it through background removal and contrast enhancement pipelines to render a fresh ASCII portrait (`portrait.svg`), queries the GitHub GraphQL API for my latest contribution statistics and language breakdowns, generates vector charts (`stats.svg`, `streak.svg`, `langs.svg`, `year.svg`), and commits the updates directly to the repository without third-party web services or rate limits [5].
+The profile assets refresh daily at 05:17 UTC through GitHub Actions, with a manual trigger available. The portrait pipeline uses the repository's `assets/avatar.jpg`, a cached background-removal model, and contrast enhancement to regenerate the animated ASCII portrait (`portrait.svg`). Independently, the statistics pipeline queries GitHub's rate-limited GraphQL API for contributions and public, owned, non-fork repository languages, then generates `stats.svg`, `streak.svg`, `langs.svg`, and `year.svg`. Streaks and activity cover the past 365 days. Bounded network retries handle transient failures; failed generation preserves the last successful assets and reports a workflow failure. Successful assets are committed automatically, even if the other pipeline fails.
 
 ---
 

@@ -8,36 +8,88 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: profile-refresh-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   refresh:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      U2NET_HOME: ${{ github.workspace }}/.cache/u2net
+      PIP_DEFAULT_TIMEOUT: '60'
+      PIP_RETRIES: '3'
     steps:
-      - uses: actions/checkout@v4
-      
+      - uses: actions/checkout@v6
+
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-          
-      - name: Install dependencies
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install network dependency
+        run: python -m pip install 'requests==2.34.2'
+
+      - name: Test reliability safeguards
+        run: python -m unittest discover -s tests -v
+
+      - name: Restore background-removal model
+        id: model-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/u2net/u2netp.onnx
+          key: u2netp-${{ runner.os }}-${{ hashFiles('scripts/prepare_model.py') }}
+
+      - name: Generate portrait
+        id: portrait
+        continue-on-error: true
+        timeout-minutes: 10
         run: |
-          python -m pip install --upgrade pip
-          pip install pillow opencv-python-headless rembg onnxruntime
-          
-      - name: Generate Portrait and Stats
+          python -m pip install -r requirements.txt
+          python scripts/generate_portrait.py
+
+      - name: Save verified model
+        if: ${{ !cancelled() && steps.portrait.outcome == 'success' && steps.model-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/u2net/u2netp.onnx
+          key: ${{ steps.model-cache.outputs.cache-primary-key }}
+
+      - name: Generate statistics
+        id: stats
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        timeout-minutes: 5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_LOGIN: ${{ github.repository_owner }}
+        run: python scripts/generate_stats.py
+
+      - name: Commit and push successful assets
+        if: ${{ !cancelled() && (steps.portrait.outcome == 'success' || steps.stats.outcome == 'success') }}
         run: |
-          python3 scripts/generate_portrait.py
-          python3 scripts/generate_stats.py
-          
-      - name: Commit and push if changed
-        run: |
-          FILES="portrait.svg stats.svg streak.svg langs.svg year.svg assets/avatar.jpg"
+          FILES="portrait.svg stats.svg streak.svg langs.svg year.svg"
           [ -z "$(git status --porcelain -- $FILES)" ] && exit 0
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -- $FILES
+          git diff --cached --quiet && exit 0
           git commit -m "profile: auto-refresh portrait and stats"
-          git push
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Report generation results
+        if: ${{ !cancelled() }}
+        env:
+          PORTRAIT_RESULT: ${{ steps.portrait.outcome }}
+          STATS_RESULT: ${{ steps.stats.outcome }}
+        run: |
+          echo "Portrait: $PORTRAIT_RESULT; statistics: $STATS_RESULT" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$PORTRAIT_RESULT" != success ] || [ "$STATS_RESULT" != success ]; then
+            echo "::error::Generation failed; affected assets retain their last successful versions. See generation logs."
+            exit 1
+          fi
