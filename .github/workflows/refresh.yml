@@ -39,7 +39,7 @@ jobs:
 
       - name: Restore background-removal model
         id: model-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: .cache/u2net/u2netp.onnx
           key: u2netp-${{ runner.os }}-${{ hashFiles('scripts/prepare_model.py') }}
@@ -54,7 +54,7 @@ jobs:
 
       - name: Save verified model
         if: ${{ !cancelled() && steps.portrait.outcome == 'success' && steps.model-cache.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: .cache/u2net/u2netp.onnx
           key: ${{ steps.model-cache.outputs.cache-primary-key }}
