@@ -158,6 +158,12 @@ class ReliabilityTests(unittest.TestCase):
                 self.assertIn('3 Days', Path('streak.svg').read_text())
                 self.assertIn('A&amp;B', Path('langs.svg').read_text())
                 self.assertEqual(Path('year.svg').read_text().count('<title>'), 4)
+                self.assertIn('fill="#161b22"', Path('year.svg').read_text())
+                days[0]['contributionCount'] = 0
+                days[1]['contributionCount'] = 0
+                stats.generate_streak_svg(data)
+                self.assertIn('1 Day</text>', Path('streak.svg').read_text())
+                self.assertNotIn('1 Days', Path('streak.svg').read_text())
             finally:
                 os.chdir(original)
 

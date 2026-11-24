@@ -146,6 +146,8 @@ def generate_stats_svg(data):
 
 def generate_streak_svg(data):
     current, longest = streaks(data)
+    current_unit = "Day" if current == 1 else "Days"
+    longest_unit = "Day" if longest == 1 else "Days"
     svg = [
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="100%" style="background-color: #0d1117; border-radius: 6px;">',
         '<style>',
@@ -154,9 +156,9 @@ def generate_streak_svg(data):
         '</style>',
         '<rect width="100%" height="100%" fill="#0d1117" rx="6"/>',
         '<text x="30" y="45" class="label">Current Streak</text>',
-        f'<text x="30" y="85" class="value">{current} Days</text>',
+        f'<text x="30" y="85" class="value">{current} {current_unit}</text>',
         '<text x="330" y="45" class="label">Longest Streak</text>',
-        f'<text x="330" y="85" class="value">{longest} Days</text>',
+        f'<text x="330" y="85" class="value">{longest} {longest_unit}</text>',
         '</svg>'
     ]
     with open("streak.svg", "w", encoding="utf-8") as f:
@@ -229,10 +231,14 @@ def generate_year_svg(data):
     ]
     # Fit the real contribution calendar into the existing card dimensions.
     weeks = data["user"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+    # Match the existing dark background and blue chart identity.
+    palette = {"#ebedf0": "#161b22", "#9be9a8": "#0d2944",
+               "#40c463": "#1f4f7a", "#30a14e": "#388bfd", "#216e39": "#58a6ff"}
     for x, week in enumerate(weeks):
         for day in week["contributionDays"]:
             y = (date.fromisoformat(day["date"]).weekday() + 1) % 7
-            svg.append(f'<rect x="{30 + x * 10}" y="{44 + y * 7}" width="8" height="5" rx="1" fill="{escape(day["color"], quote=True)}"><title>{day["date"]}: {day["contributionCount"]} contributions</title></rect>')
+            color = "#161b22" if not day["contributionCount"] else palette.get(day["color"], "#58a6ff")
+            svg.append(f'<rect x="{30 + x * 10}" y="{44 + y * 7}" width="8" height="5" rx="1" fill="{color}"><title>{day["date"]}: {day["contributionCount"]} contributions</title></rect>')
     svg.append('</svg>')
     with open("year.svg", "w", encoding="utf-8") as f:
         f.write("\n".join(svg))
