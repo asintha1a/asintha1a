@@ -5,7 +5,6 @@
 </style>
 <rect width="100%" height="100%" fill="#0d1117" rx="6"/>
 <text x="30" y="35" class="label">Activity Density (365 Days)</text>
-<rect x="30" y="65" width="8" height="5" rx="1" fill="#161b22"><title>2025-11-26: 0 contributions</title></rect>
 <rect x="30" y="72" width="8" height="5" rx="1" fill="#161b22"><title>2025-11-27: 0 contributions</title></rect>
 <rect x="30" y="79" width="8" height="5" rx="1" fill="#161b22"><title>2025-11-28: 0 contributions</title></rect>
 <rect x="30" y="86" width="8" height="5" rx="1" fill="#161b22"><title>2025-11-29: 0 contributions</title></rect>
@@ -239,7 +238,7 @@
 <rect x="360" y="65" width="8" height="5" rx="1" fill="#161b22"><title>2026-07-15: 0 contributions</title></rect>
 <rect x="360" y="72" width="8" height="5" rx="1" fill="#161b22"><title>2026-07-16: 0 contributions</title></rect>
 <rect x="360" y="79" width="8" height="5" rx="1" fill="#388bfd"><title>2026-07-17: 22 contributions</title></rect>
-<rect x="360" y="86" width="8" height="5" rx="1" fill="#0d2944"><title>2026-07-18: 9 contributions</title></rect>
+<rect x="360" y="86" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-07-18: 9 contributions</title></rect>
 <rect x="370" y="44" width="8" height="5" rx="1" fill="#161b22"><title>2026-07-19: 0 contributions</title></rect>
 <rect x="370" y="51" width="8" height="5" rx="1" fill="#161b22"><title>2026-07-20: 0 contributions</title></rect>
 <rect x="370" y="58" width="8" height="5" rx="1" fill="#0d2944"><title>2026-07-21: 2 contributions</title></rect>
@@ -276,10 +275,10 @@
 <rect x="410" y="79" width="8" height="5" rx="1" fill="#58a6ff"><title>2026-08-21: 53 contributions</title></rect>
 <rect x="410" y="86" width="8" height="5" rx="1" fill="#58a6ff"><title>2026-08-22: 43 contributions</title></rect>
 <rect x="420" y="44" width="8" height="5" rx="1" fill="#58a6ff"><title>2026-08-23: 35 contributions</title></rect>
-<rect x="420" y="51" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-08-24: 18 contributions</title></rect>
+<rect x="420" y="51" width="8" height="5" rx="1" fill="#388bfd"><title>2026-08-24: 18 contributions</title></rect>
 <rect x="420" y="58" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-08-25: 14 contributions</title></rect>
 <rect x="420" y="65" width="8" height="5" rx="1" fill="#0d2944"><title>2026-08-26: 6 contributions</title></rect>
-<rect x="420" y="72" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-08-27: 19 contributions</title></rect>
+<rect x="420" y="72" width="8" height="5" rx="1" fill="#388bfd"><title>2026-08-27: 19 contributions</title></rect>
 <rect x="420" y="79" width="8" height="5" rx="1" fill="#161b22"><title>2026-08-28: 0 contributions</title></rect>
 <rect x="420" y="86" width="8" height="5" rx="1" fill="#161b22"><title>2026-08-29: 0 contributions</title></rect>
 <rect x="430" y="44" width="8" height="5" rx="1" fill="#161b22"><title>2026-08-30: 0 contributions</title></rect>
@@ -322,14 +321,14 @@
 <rect x="480" y="58" width="8" height="5" rx="1" fill="#161b22"><title>2026-10-06: 0 contributions</title></rect>
 <rect x="480" y="65" width="8" height="5" rx="1" fill="#161b22"><title>2026-10-07: 0 contributions</title></rect>
 <rect x="480" y="72" width="8" height="5" rx="1" fill="#0d2944"><title>2026-10-08: 5 contributions</title></rect>
-<rect x="480" y="79" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-10-09: 19 contributions</title></rect>
+<rect x="480" y="79" width="8" height="5" rx="1" fill="#388bfd"><title>2026-10-09: 19 contributions</title></rect>
 <rect x="480" y="86" width="8" height="5" rx="1" fill="#388bfd"><title>2026-10-10: 24 contributions</title></rect>
 <rect x="490" y="44" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-10-11: 11 contributions</title></rect>
 <rect x="490" y="51" width="8" height="5" rx="1" fill="#0d2944"><title>2026-10-12: 1 contributions</title></rect>
-<rect x="490" y="58" width="8" height="5" rx="1" fill="#0d2944"><title>2026-10-13: 9 contributions</title></rect>
+<rect x="490" y="58" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-10-13: 9 contributions</title></rect>
 <rect x="490" y="65" width="8" height="5" rx="1" fill="#161b22"><title>2026-10-14: 0 contributions</title></rect>
 <rect x="490" y="72" width="8" height="5" rx="1" fill="#0d2944"><title>2026-10-15: 1 contributions</title></rect>
-<rect x="490" y="79" width="8" height="5" rx="1" fill="#0d2944"><title>2026-10-16: 9 contributions</title></rect>
+<rect x="490" y="79" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-10-16: 9 contributions</title></rect>
 <rect x="490" y="86" width="8" height="5" rx="1" fill="#161b22"><title>2026-10-17: 0 contributions</title></rect>
 <rect x="500" y="44" width="8" height="5" rx="1" fill="#0d2944"><title>2026-10-18: 6 contributions</title></rect>
 <rect x="500" y="51" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-10-19: 15 contributions</title></rect>
@@ -368,6 +367,7 @@
 <rect x="540" y="86" width="8" height="5" rx="1" fill="#161b22"><title>2026-11-21: 0 contributions</title></rect>
 <rect x="550" y="44" width="8" height="5" rx="1" fill="#161b22"><title>2026-11-22: 0 contributions</title></rect>
 <rect x="550" y="51" width="8" height="5" rx="1" fill="#161b22"><title>2026-11-23: 0 contributions</title></rect>
-<rect x="550" y="58" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-11-24: 21 contributions</title></rect>
-<rect x="550" y="65" width="8" height="5" rx="1" fill="#0d2944"><title>2026-11-25: 9 contributions</title></rect>
+<rect x="550" y="58" width="8" height="5" rx="1" fill="#388bfd"><title>2026-11-24: 21 contributions</title></rect>
+<rect x="550" y="65" width="8" height="5" rx="1" fill="#1f4f7a"><title>2026-11-25: 10 contributions</title></rect>
+<rect x="550" y="72" width="8" height="5" rx="1" fill="#0d2944"><title>2026-11-26: 7 contributions</title></rect>
 </svg>
